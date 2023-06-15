@@ -1,6 +1,8 @@
 from docx.api import Document
 from DatabaseConnection import DBConn
 
+# TODO: Remove the Effective and Updated dates from the boilerplate
+
 def read_docx(path):
     document = Document(path)
     table = document.tables[0]
@@ -54,9 +56,9 @@ def create_insert_statements(results):
                     continue
                 
                 statuteArray = i['Statute'].split("-")
-                title = statuteArray[0] 
+                title = statuteArray[0]
                 chapter = statuteArray[1]
-                section = statuteArray[2]
+                section = statuteArray[2].split("(")[0].replace(" ", "")
 
                 statement = f"INSERT INTO GenericCourt.OffenseBoilerPlate ([Code],[Title],[Chapter],[Section],[Name],[BoilerPlate]) VALUES (\'{i['Statute']}\', {title}, {chapter}, {section}, \'{i['Name']}\', \'{i['Title']}\');"
                 f.write(f'{statement}\n')
