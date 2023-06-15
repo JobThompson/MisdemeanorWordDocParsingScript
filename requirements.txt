@@ -1,0 +1,4 @@
+SQLAlchemy==2.0.16
+pandas==2.0.2
+python-docx==0.8.11
+pyodbc==4.0.39
