@@ -1,5 +1,4 @@
 from docx.api import Document
-from pprint import pprint
 from DatabaseConnection import DBConn
 
 def read_docx(path):
@@ -18,11 +17,15 @@ def read_docx(path):
             
             for index, cell in enumerate(row.cells):
                 if index == 0:
-                    statute = cell.text
+                    statute = str(cell.text).replace("'", "\'")
                 else:
-                    title = cell.text
+                    title = str(cell.text).replace("'", "\'")
             
             if "\xa0" in title:
+                continue
+            
+            if title[0: 4] in ["NOTE:", "z.NOT", "nOTE", "~NOT" ,"NOTE" "z. N"]:
+                print("Note found")
                 continue
             
             if statute != previous_statute:
