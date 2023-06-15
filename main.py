@@ -40,8 +40,9 @@ def read_docx(path):
                 previous_statute = statute
                 continue
             
-            row_data = dict(zip(keys, (statute, name, title, is_felony)))
-            results.append(row_data)
+            if not ''.join(entry for entry in title.split("(")[0:-1])[0:-1] == name:
+                row_data = dict(zip(keys, (statute, name, title, is_felony)))
+                results.append(row_data)
             
         except Exception as e:
             print(e)
