@@ -61,9 +61,9 @@ def create_insert_statements(results):
                     continue
                 
                 statuteArray = i['Statute'].split("-")
-                title = statuteArray[0]
-                chapter = statuteArray[1]
-                section = statuteArray[2].split("(")[0].replace(" ", "")
+                title = ''.join(filter(str.isdigit, f'{statuteArray[0]}')) if '.' not in statuteArray[0] else f'{statuteArray[0].split(".")[0]}.'.join(filter(str.isdigit, f'{statuteArray[0].split(".")[1]}'))
+                chapter = ''.join(filter(str.isdigit, f'{statuteArray[1]}')) if '.' not in statuteArray[1] else f'{statuteArray[1].split(".")[0]}.'.join(filter(str.isdigit, f'{statuteArray[1].split(".")[1]}'))
+                section = float(statuteArray[2].split("(")[0].replace(" ", "")) if '.' in statuteArray[2] else int(statuteArray[2].split("(")[0].replace(" ", ""))
 
                 statement = f"INSERT INTO GenericCourt.OffenseBoilerPlate ([Code],[Title],[Chapter],[Section],[Name],[BoilerPlate]) VALUES (\'{i['Statute']}\', {title}, {chapter}, {section}, \'{i['Name']}\', \'{i['Title']}\');"
                 f.write(f'{statement}\n')
