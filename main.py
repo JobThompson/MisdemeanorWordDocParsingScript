@@ -1,8 +1,6 @@
 from docx.api import Document
 from DatabaseConnection import DBConn
 
-# TODO: Remove the Effective and Updated dates from the boilerplate
-
 def read_docx(path):
     document = Document(path)
     table = document.tables[0]
@@ -40,13 +38,19 @@ def read_docx(path):
                 previous_statute = statute
                 continue
             
-            if not ''.join(entry for entry in title.split("(")[0:-1])[0:-1] == name:
-                row_data = dict(zip(keys, (statute, name, title, is_felony)))
-                results.append(row_data)
+            titleArray = title.split("\n") if ('\n' in title) else title.split("    ")
+            try:
+                title = f'{titleArray[0]}\n{titleArray[2]}'
+            except Exception as e:
+                title = titleArray[0]
+            
+            row_data = dict(zip(keys, (statute, name, title, is_felony)))
+            results.append(row_data)
             
         except Exception as e:
             print(e)
             continue
+        
     return results
 
 def create_insert_statements(results):
