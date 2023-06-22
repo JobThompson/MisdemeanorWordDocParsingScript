@@ -96,7 +96,7 @@ def get_offenseIDs_for_results(results, offense_objects_array):
 
 def main():
     offense_objects_array = get_database_offense_info()
-    results = read_docx("C:/Users/job.thompson/Documents/GitHub/MisdemeanorWordDocParsingScript/UPDATED-Misdemeanor Tracker Language LOCAL COPY.docx")
+    results = read_docx("./UPDATED-Misdemeanor Tracker Language LOCAL COPY.docx")
     results = get_offenseIDs_for_results(results, offense_objects_array)
     create_insert_statements(results)
 
